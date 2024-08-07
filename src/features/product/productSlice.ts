@@ -74,8 +74,7 @@ const productSlice = createSlice({
             .addCase(editProduct.fulfilled, (state, action) => {
                 state.loading = false;
                 const index = state.products.findIndex(product => product.id === action.payload.id);
-                if (index !== -1)
-                    state.products[index] = action.payload;
+                if (index !== -1) state.products[index] = action.payload;
             })
             .addCase(editProduct.rejected, createRejectedReducer)
 

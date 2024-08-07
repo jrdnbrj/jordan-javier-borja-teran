@@ -1,11 +1,22 @@
 import React, { useState } from "react";
+import Modal from "./Modal";
 
 const OptionsButton: React.FC = () => {
     const [open, setOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const toggleMenu = () => {
         setOpen(!open);
     };
+
+    const removeProduct = () => {
+        setModalOpen(false);
+    }
+
+    const openModal = () => {
+        setModalOpen(true);
+        setOpen(false);
+    }
 
     return (
         <div className="options-menu">
@@ -24,8 +35,17 @@ const OptionsButton: React.FC = () => {
             {open && (
                 <div className="menu">
                     <div className="menu-item">Editar</div>
-                    <div className="menu-item">Eliminar</div>
+                    <div className="menu-item" onClick={openModal}>
+                        Eliminar
+                    </div>
                 </div>
+            )}
+            {modalOpen && (
+                <Modal
+                    title="Producto"
+                    onConfirm={removeProduct}
+                    onCancel={() => setModalOpen(false)}
+                />
             )}
         </div>
     );

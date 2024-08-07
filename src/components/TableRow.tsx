@@ -5,13 +5,11 @@ const TableRow: React.FC = () => {
     return (
         <div className="table-row" role="row">
             <div className="logo" style={{ maxWidth: '6rem', minWidth: '6rem', alignContent: 'center' }}>JG</div>
-            <div style={{ width: '30%' }}>Nombre del producto.</div>
-            <div style={{ width: '25%' }}>Descripción.</div>
-            <div style={{ width: '20%' }}>01/01/2000</div>
-            <div style={{ width: '20%' }}>01/01/2001</div>
-            <div style={{ width: '5%' }}>
-                <OptionsButton />
-            </div>
+            <div style={{ width: '30%' }}>Tarjetas de Crédito</div>
+            <div style={{ width: '25%' }}>Tarjeta de consumo bajo la modalidad de crédito</div>
+            <div style={{ width: '20%' }}>2023-02-01</div>
+            <div style={{ width: '20%' }}>2024-02-01</div>
+            <div style={{ width: '5%' }}><OptionsButton /></div>
         </div>
     );
 };

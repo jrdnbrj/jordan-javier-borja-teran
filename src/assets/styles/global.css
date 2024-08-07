@@ -1,7 +1,9 @@
 @import './base/_reset.css';
 @import './base/_variables.css';
 
+@import './components/_alert.css';
 @import './components/_header.css';
+@import './components/_modal.css';
 /* @import './components/_productList.css'; */
 @import './components/_table.css';
 @import './components/_optionsButton.css';
