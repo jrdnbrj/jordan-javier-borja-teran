@@ -1,16 +1,19 @@
 .table {
     border-collapse: collapse;
     background-color: #ffffff;
-    padding: 2rem;
     margin-top: 2rem;
+    padding : 2rem 0;
+    max-width: 150rem;
+    overflow-x: auto;
 }
 
 .table-header {
-    /* background-color: var(--blue-background); */
     background-color: var(--table-header-background);
     height: 3rem;
     align-items: center;
     font-weight: 500;
+    min-width: var(--min-table-width);
+    margin: 0 1.5rem;
 }
 
 .table-header,
@@ -18,40 +21,95 @@
     display: flex;
     padding: 10px 0;
     border-bottom: 1px solid #ccc;
+    min-width: var(--min-table-width);
+    margin: 0 1.5rem;
 }
 
 .table-header div,
 .table-row div {
     text-align: left;
+    align-content: center;
 }
 
 .col-logo {
-    max-width: var(--col-logo-width);
+    /* max-width: var(--col-logo-width); */
     min-width: var(--col-logo-width);
     text-align: center !important;
 }
 
 .col-name {
     width: var(--col-name-width);
+    min-width: 15rem;
 }
 
 .col-description {
     width: var(--col-description-width);
+    min-width: 20rem;
 }
 
 .col-release-date {
     width: var(--col-release-date-width);
+    min-width: 12rem;
 }
 
 .col-restructuring-date {
     width: var(--col-restructuring-date-width);
+    min-width: 12rem;
 }
 
 .col-options {
     width: var(--col-options-width);
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 1rem;
 }
 
-@media (max-width: 768px) {
+.table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem !important;
+    margin: 0 1.5rem;
+}
+
+.results-text {
+    font-size: 14px;
+    color: #333;
+}
+
+.results-select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    color: #333;
+    font-size: 14px;
+    min-width: 4rem;
+}
+
+/* Estilos para el scrollbar */
+.table::-webkit-scrollbar {
+    margin-top: -1rem;
+    height: 12px;
+    border-radius: 1rem; 
+  }
+
+.table::-webkit-scrollbar-track {
+    background: var(--table-header-background);
+}
+
+.table::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-color);
+    border-radius: 12rem; 
+    border: 3px solid var(--table-header-background);
+}
+
+.table {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-color) var(--table-header-background);
+}
+
+/* @media (max-width: 768px) {
     .table-header,
     .table-row {
       flex-direction: column;
@@ -63,4 +121,4 @@
       text-align: left;
       padding: 5px 0;
     }
-}
+}*/

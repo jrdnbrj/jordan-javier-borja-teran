@@ -112,3 +112,23 @@ input.error, textarea.error {
     color: var(--blue-disabled);
     cursor: not-allowed;
 }
+
+@media screen and (max-width: 880px) {
+    .form-container {
+       margin : 0 2rem;   
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .form-container {
+        width: 90%;
+    }
+    .form-row {
+        gap: 1rem;
+    }
+    .form-group {
+        min-width: 8rem;
+        width: 50%;
+    }
+
+}

@@ -8,6 +8,7 @@
     --red-error: #FF0000;
     --table-header-background: #F9FAFC;
     --background: #F4F6F9;
+    --scrollbar-color: #6e6e73;
 
     /* Font */
     --font-family: sans-serif;
@@ -19,4 +20,7 @@
     --col-release-date-width: 15%;
     --col-restructuring-date-width: 15%;
     --col-options-width: 5%;
+
+    /* Sizes */
+    --min-table-width: 1100px;
 }
