@@ -12,10 +12,10 @@ const ProductsHome: React.FC = () => {
     };
 
     return (
-        <div>
-            <button onClick={() => showAlert('This is a success message ', 'success')}>
+        <div className='products-home'>
+            {/* <button onClick={() => showAlert('This is a success message ', 'success')}>
                 Alert
-            </button>
+            </button> */}
             <SearchCreateBar />
             <Table />
         </div>

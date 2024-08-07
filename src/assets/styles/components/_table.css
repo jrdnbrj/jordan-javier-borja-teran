@@ -2,11 +2,13 @@
     border-collapse: collapse;
     background-color: #ffffff;
     padding: 2rem;
+    margin-top: 2rem;
 }
 
 .table-header {
-    background-color: var(--blue-background);
-    height: 2rem;
+    /* background-color: var(--blue-background); */
+    background-color: var(--table-header-background);
+    height: 3rem;
     align-items: center;
     font-weight: 500;
 }
@@ -14,15 +16,39 @@
 .table-header,
 .table-row {
     display: flex;
-    /* justify-content: space-between; */
     padding: 10px 0;
     border-bottom: 1px solid #ccc;
 }
 
 .table-header div,
 .table-row div {
-    flex: 1;
-    text-align: center;
+    text-align: left;
+}
+
+.col-logo {
+    max-width: var(--col-logo-width);
+    min-width: var(--col-logo-width);
+    text-align: center !important;
+}
+
+.col-name {
+    width: var(--col-name-width);
+}
+
+.col-description {
+    width: var(--col-description-width);
+}
+
+.col-release-date {
+    width: var(--col-release-date-width);
+}
+
+.col-restructuring-date {
+    width: var(--col-restructuring-date-width);
+}
+
+.col-options {
+    width: var(--col-options-width);
 }
 
 @media (max-width: 768px) {

@@ -6,18 +6,18 @@ const Table: React.FC = () => {
     return (
         <div className="table">
             <div className="table-header">
-                <div style={{ maxWidth: '6rem', minWidth: '6rem',  alignContent: 'center' }}>Logo</div>
-                <div style={{ width: '30%' }}>Nombre del producto</div>
-                <div style={{ width: '25%' }}>
+                <div className="col-logo">Logo</div>
+                <div className="col-name">Nombre del producto</div>
+                <div className="col-description">
                     Descripción <Tooltip text="Información sobre la descripción" />
                 </div>
-                <div style={{ width: '20%' }}>
-                    Fecha de liberación <Tooltip text="Información sobre la fecha de liberación" />
+                <div className="col-release-date">
+                    Fecha de Liberación <Tooltip text="Información sobre la fecha de liberación" />
                 </div>
-                <div style={{ width: '20%' }}>
-                    Fecha de reestructuración <Tooltip text="Información sobre la fecha de reestructuración" />
+                <div className="col-restructuring-date">
+                    Fecha de Revisión <Tooltip text="Información sobre la fecha de reestructuración" />
                 </div>
-                <div style={{ width: '5%' }}></div>
+                <div className="col-options"></div>
             </div>
             {[...Array(5)].map((_, index) => (
                 <TableRow key={index} />

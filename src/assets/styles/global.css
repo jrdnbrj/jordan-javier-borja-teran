@@ -6,8 +6,8 @@
 @import './components/_searchCreateBar.css';
 @import './components/_table.css';
 @import './components/_optionsButton.css';
-@import './components/_tableRow.css';
+@import './components/_logoCircle.css';
 @import './components/_tooltip.css';
 
 @import './pages/_productForm.css';
-/* @import './pages/_productsHome.css'; */
+@import './pages/_productsHome.css';

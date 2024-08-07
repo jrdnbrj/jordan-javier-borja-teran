@@ -75,3 +75,8 @@ img {
 * {
     box-sizing: border-box;
 }
+
+html, body {
+    background-color: var(--background);
+    font-family: var(--font-family);
+}

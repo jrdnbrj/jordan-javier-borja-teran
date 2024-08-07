@@ -6,9 +6,17 @@
     --blue-disabled: #6f7d9d;
     --blue-background: #cfd4de;
     --red-error: #FF0000;
+    --table-header-background: #F9FAFC;
+    --background: #F4F6F9;
 
     /* Font */
     --font-family: sans-serif;
 
-
+    /* Column Widths */
+    --col-logo-width: 10%;
+    --col-name-width: 15%;
+    --col-description-width: 40%;
+    --col-release-date-width: 15%;
+    --col-restructuring-date-width: 15%;
+    --col-options-width: 5%;
 }

@@ -129,72 +129,74 @@ const ProductForm: React.FC = () => {
     };
 
     return (
-        <div className="form-container">
-            <h1>Formulario de Registro</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="form-row">
-                    <FormField
-                        label="ID"
-                        type="text"
-                        value={id}
-                        onChange={(e) => setId(e.target.value)}
-                        error={errors.id}
-                    />
-                    <FormField
-                        label="Nombre"
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        error={errors.name}
-                    />
-                </div>
-                <div className="form-row">
-                    <FormField
-                        label="Descripción"
-                        type="text"
-                        textarea
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        error={errors.description}
-                    />
-                    <FormField
-                        label="Logo"
-                        type="text"
-                        value={logo}
-                        onChange={(e) => setLogo(e.target.value)}
-                        error={errors.logo}
-                    />
-                </div>
-                <div className="form-row">
-                    <FormField
-                        label="Fecha Liberación"
-                        type="date"
-                        value={dateRelease}
-                        onChange={(e) => setDateRelease(e.target.value)}
-                        error={errors.dateRelease}
-                    />
-                    <FormField
-                        label="Fecha Revisión"
-                        type="date"
-                        value={dateRevision}
-                        readOnly
-                        onFocus={(e) => e.target.blur()}
-                        onChange={(e) => e.target.value = dateRevision}
-                    />
-                </div>
-                <div className="form-actions">
-                    <button type="button" className="cancel-button" onClick={() => {
-                        setId('');
-                        setName('');
-                        setDescription('');
-                        setLogo('');
-                        setDateRelease('');
-                        setDateRevision('');
-                        setErrors({});
-                    }}>Reiniciar</button>
-                    <button type="submit" className={`submit-button ${Object.keys(errors).length > 0 ? 'disabled' : ''}`}>Enviar</button>
-                </div>
-            </form>
+        <div className="form-main">
+            <div className="form-container">
+                <h1>Formulario de Registro</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-row">
+                        <FormField
+                            label="ID"
+                            type="text"
+                            value={id}
+                            onChange={(e) => setId(e.target.value)}
+                            error={errors.id}
+                        />
+                        <FormField
+                            label="Nombre"
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            error={errors.name}
+                        />
+                    </div>
+                    <div className="form-row">
+                        <FormField
+                            label="Descripción"
+                            type="text"
+                            textarea
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            error={errors.description}
+                        />
+                        <FormField
+                            label="Logo"
+                            type="text"
+                            value={logo}
+                            onChange={(e) => setLogo(e.target.value)}
+                            error={errors.logo}
+                        />
+                    </div>
+                    <div className="form-row">
+                        <FormField
+                            label="Fecha Liberación"
+                            type="date"
+                            value={dateRelease}
+                            onChange={(e) => setDateRelease(e.target.value)}
+                            error={errors.dateRelease}
+                        />
+                        <FormField
+                            label="Fecha Revisión"
+                            type="date"
+                            value={dateRevision}
+                            readOnly
+                            onFocus={(e) => e.target.blur()}
+                            onChange={(e) => e.target.value = dateRevision}
+                        />
+                    </div>
+                    <div className="form-actions">
+                        <button type="button" className="cancel-button" onClick={() => {
+                            setId('');
+                            setName('');
+                            setDescription('');
+                            setLogo('');
+                            setDateRelease('');
+                            setDateRevision('');
+                            setErrors({});
+                        }}>Reiniciar</button>
+                        <button type="submit" className={`submit-button ${Object.keys(errors).length > 0 ? 'disabled' : ''}`}>Enviar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };
