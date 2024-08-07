@@ -9,7 +9,7 @@ const OptionsButton: React.FC = () => {
 
     return (
         <div className="options-menu">
-            <div onClick={toggleMenu} className="options-icon">
+            <div onClick={toggleMenu} className="options-icon" role="button">
                 <svg
                     fill="#000000"
                     width="16"
