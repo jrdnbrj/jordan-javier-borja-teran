@@ -5,7 +5,7 @@
 }
 
 .table-header {
-    background-color: #f9fafc;
+    background-color: var(--blue-background);
     height: 2rem;
     align-items: center;
     font-weight: 500;

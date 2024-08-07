@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../pages/products/ProductsHome';
 import ProductsLayout from '../components/layout/ProductsLayout';
-import ProductForm from '../pages/products/ProductForm';
+import ProductForm from '../pages/products/ProductForm/ProductForm';
 
 const AppRoutes: React.FC = () => {
     return (

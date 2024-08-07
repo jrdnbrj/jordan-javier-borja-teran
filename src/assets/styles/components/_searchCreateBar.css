@@ -1,4 +1,4 @@
-.header {
+.search-create-bar {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
@@ -15,16 +15,16 @@
 }
 
 .add-button {
-    background-color: #ffdd01;
+    background-color: var(--yellow);
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    color: #0f265c; 
+    color: var(--blue); 
     font-weight: 600;
 }
 
 @media (max-width: 768px) {
-    .header {
+    .search-create-bar {
         flex-direction: column;
         align-items: stretch;
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../../components/Header';
+import SearchCreateBar from '../../components/SearchCreateBar';
 import Table from '../../components/Table';
 import { useDispatch } from 'react-redux';
 import { setAlert } from '../../features/alert/alertSlice';
@@ -16,7 +16,7 @@ const ProductsHome: React.FC = () => {
             <button onClick={() => showAlert('This is a success message ', 'success')}>
                 Alert
             </button>
-            <Header />
+            <SearchCreateBar />
             <Table />
         </div>
     );
