@@ -1,16 +1,13 @@
 import axios from 'axios';
 
-// const API_BASE_URL = 'https://tribu-ti-staffing-desarrollo-afangwbmcrhucqfh.z01.azurefd.net/ipf-msa-productosfinancieros';
-const API_BASE_URL = 'https://jsonplaceholder.typicode.com/posts';
-const AUTHOR_ID = 'borjajordan@hotmail.com';
+const API_BASE_URL = 'https://tribu-ti-staffing-desarrollo-afangwbmcrhucqfh.z01.azurefd.net/ipf-msa-productosfinancieros';
+const AUTHOR_ID = '984790449';
 
 export const getProducts = async () => {
     try {
-        // const response = await axios.get(`${API_BASE_URL}/bp/products`, {
-        const response = await axios.get(`${API_BASE_URL}`, {
+        const response = await axios.get(`${API_BASE_URL}/bp/products`, {
             headers: { authorId: AUTHOR_ID },
         });
-        console.log(response.data);
         return response.data;
     } catch (error) {
         throw new Error('Error fetching products');

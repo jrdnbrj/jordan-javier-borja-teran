@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import Modal from "./Modal";
+import { useNavigate } from 'react-router-dom';
 
-const OptionsButton: React.FC = () => {
+const OptionsButton: React.FC = ({ id }) => {
+    const navigate = useNavigate();
+
     const [open, setOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
 
-    const toggleMenu = () => {
-        setOpen(!open);
-    };
+    const toggleMenu = () => setOpen(!open);
+    const removeProduct = () => setModalOpen(false);
 
-    const removeProduct = () => {
-        setModalOpen(false);
+    const onEdit = () => {
+        navigate(`edit/${id}`);
     }
 
     const openModal = () => {
@@ -34,7 +36,7 @@ const OptionsButton: React.FC = () => {
             </div>
             {open && (
                 <div className="menu">
-                    <div className="menu-item">Editar</div>
+                    <div className="menu-item" onClick={onEdit}>Editar</div>
                     <div className="menu-item" onClick={openModal}>
                         Eliminar
                     </div>

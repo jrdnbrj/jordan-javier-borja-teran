@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TableRow from './TableRow';
 import Tooltip from './Tooltip';
+import { useDispatch, useSelector } from 'react-redux';
+import Skeleton from './Skeleton';
+import { fetchProducts } from '../features/product/productSlice';
 
 const Table: React.FC = () => {
+    const dispatch = useDispatch();
+
+    const products = useSelector((state) => state.product.products);
+    const loading = useSelector((state) => state.product.loading);
+    const error = useSelector((state) => state.product.error);
+
+    useEffect(() => {
+        dispatch(fetchProducts());
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (error) 
+            dispatch(setAlert({ 
+                message: 'Ocurrió un problema cargando los productos. Vuelve a intentarlo.', 
+                type: 'error' 
+            }));
+    }, [error]);
+
+    if (loading) return <div className="table"><Skeleton width="100%" height="20rem" /></div>
+
     return (
         <div className="table">
             <div className="table-header">
@@ -19,9 +42,9 @@ const Table: React.FC = () => {
                 </div>
                 <div className="col-options"></div>
             </div>
-            {[...Array(5)].map((_, index) => (
-                <TableRow key={index} />
-            ))}
+            {products.map((product, index) => 
+                <TableRow product={product} index={index} />
+            )}
         </div>
     );
 };
