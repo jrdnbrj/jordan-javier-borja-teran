@@ -11,7 +11,7 @@
     background-color: var(--blue-background);
     color: var(--blue);
     font-family: var(--font-family);
-    max-width: 20rem;
+    max-width: 15rem;
 }
 
 .alert button {

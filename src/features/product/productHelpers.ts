@@ -1,15 +1,15 @@
 import { AnyAction, PayloadAction } from '@reduxjs/toolkit';
 
-export const createPendingReducer = (state: any) => {
-    state.loading = true;
+export const createPendingReducer = (loadingKey: string) => (state: any) => {
+    state[loadingKey] = true;
 };
 
-export const createRejectedReducer = (state: any, action: AnyAction) => {
-    state.loading = false;
-    state.error = action.error.message || 'An error occurred';
+export const createRejectedReducer = (loadingKey: string) => (state: any, action: AnyAction) => {
+    state[loadingKey] = false;
+    state.error = action.error.message || 'Ocurrió un error inesperado.';
 };
 
-export const createFulfilledReducer = <T>(key: string) => (state: any, action: PayloadAction<T>) => {
-    state.loading = false;
+export const createFulfilledReducer = <T>(key: string, loadingKey: string) => (state: any, action: PayloadAction<T>) => {
+    state[loadingKey] = false;
     state[key] = action.payload;
 };

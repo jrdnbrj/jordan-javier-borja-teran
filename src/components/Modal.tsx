@@ -6,7 +6,7 @@ interface ModalProps {
     onCancel: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ title, onConfirm, onCancel }) => {
+const Modal: React.FC<ModalProps> = ({ title, onConfirm, onCancel, loading }) => {
     return (
         <div className="modal-overlay">
             <div className="modal-content">
@@ -15,7 +15,7 @@ const Modal: React.FC<ModalProps> = ({ title, onConfirm, onCancel }) => {
                     <button className="modal-button cancel" onClick={onCancel}>
                         Cancelar
                     </button>
-                    <button className="modal-button confirm" onClick={onConfirm}>
+                    <button className={`modal-button confirm ${loading && 'disabled'}`} onClick={onConfirm}>
                         Confirmar
                     </button>
                 </div>

@@ -14,6 +14,7 @@ interface Product {
 interface ProductState {
     products: Product[];
     loading: boolean;
+    loadingSave: boolean;
     error: string | null;
     verificationResult: boolean | null;
 }
@@ -21,6 +22,7 @@ interface ProductState {
 const initialState: ProductState = {
     products: [],
     loading: false,
+    loadingSave: false,
     error: null,
     verificationResult: null,
 };
@@ -42,7 +44,11 @@ export const editProduct = createAsyncThunk(
 
 export const removeProduct = createAsyncThunk(
     'product/removeProduct',
-    async (id: string) => await deleteProduct(id)
+    async (id: string) => {
+        console.log('Removing product with ID:', id);
+        await deleteProduct(id);
+        return {}
+    }
 );
 
 export const verifyProduct = createAsyncThunk(
@@ -57,39 +63,42 @@ const productSlice = createSlice({
     extraReducers: (builder) => {
         builder
             // Fetch Products
-            .addCase(fetchProducts.pending, createPendingReducer)
-            .addCase(fetchProducts.fulfilled, createFulfilledReducer<Product[]>('products'))
-            .addCase(fetchProducts.rejected, createRejectedReducer)
+            .addCase(fetchProducts.pending, createPendingReducer('loading'))
+            .addCase(fetchProducts.fulfilled, createFulfilledReducer<Product[]>('products', 'loading'))
+            .addCase(fetchProducts.rejected, createRejectedReducer('loading'))
 
             // Add Product
-            .addCase(addProduct.pending, createPendingReducer)
+            .addCase(addProduct.pending, createPendingReducer('loadingSave'))
             .addCase(addProduct.fulfilled, (state, action) => {
-                state.loading = false;
+                state.loadingSave = false;
                 state.products.push(action.payload);
             })
-            .addCase(addProduct.rejected, createRejectedReducer)
+            .addCase(addProduct.rejected, createRejectedReducer('loadingSave'))
 
             // Edit Product
-            .addCase(editProduct.pending, createPendingReducer)
+            .addCase(editProduct.pending, createPendingReducer('loadingSave'))
             .addCase(editProduct.fulfilled, (state, action) => {
-                state.loading = false;
+                state.loadingSave = false;
                 const index = state.products.findIndex(product => product.id === action.payload.id);
                 if (index !== -1) state.products[index] = action.payload;
             })
-            .addCase(editProduct.rejected, createRejectedReducer)
+            .addCase(editProduct.rejected, createRejectedReducer('loadingSave'))
 
             // Remove Product
-            .addCase(removeProduct.pending, createPendingReducer)
+            .addCase(removeProduct.pending, createPendingReducer('loadingSave'))
             .addCase(removeProduct.fulfilled, (state, action) => {
-                state.loading = false;
+                state.loadingSave = false;
                 state.products = state.products.filter(product => product.id !== action.payload);
             })
-            .addCase(removeProduct.rejected, createRejectedReducer)
+            .addCase(removeProduct.rejected, createRejectedReducer('loadingSave'))
 
             // Verify Product ID
-            .addCase(verifyProduct.pending, createPendingReducer)
-            .addCase(verifyProduct.fulfilled, createFulfilledReducer<boolean>('verificationResult'))
-            .addCase(verifyProduct.rejected, createRejectedReducer);
+            .addCase(verifyProduct.pending, (state) => {
+                // state.loading = true;
+                // state.verificationResult = null;
+            })
+            .addCase(verifyProduct.fulfilled, createFulfilledReducer<boolean>('verificationResult', 'loading'))
+            .addCase(verifyProduct.rejected, createRejectedReducer('loading'));
     },
 });
 

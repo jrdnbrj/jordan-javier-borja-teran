@@ -42,8 +42,9 @@ export const deleteProduct = async (id: string) => {
             headers: { authorId: AUTHOR_ID },
             params: { id },
         });
-        return response.data;
+        return id;
     } catch (error) {
+        console.log(error);
         throw new Error('Error deleting product');
     }
 };

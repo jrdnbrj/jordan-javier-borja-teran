@@ -1,18 +1,30 @@
 import React, { useState } from "react";
 import Modal from "./Modal";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeProduct, fetchProducts } from '../features/product/productSlice';
 
 const OptionsButton: React.FC = ({ id }) => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [open, setOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
 
+    const loadingSave = useSelector((state) => state.product.loadingSave);
+
     const toggleMenu = () => setOpen(!open);
     const removeProduct = () => setModalOpen(false);
 
-    const onEdit = () => {
-        navigate(`edit/${id}`);
+    const onEdit = () => navigate(`edit/${id}`);
+    const onRemove = () => {
+        console.log('removeProduct', id);
+        // dispatch(fetchProducts())
+        dispatch(removeProduct(id as string))
+            // .unwrap()
+            // .then(() => dispatch(setAlert({ message: 'Producto eliminado correctamente' })))
+            // .catch(() => dispatch(setAlert({ message: 'Error al eliminar el producto' })))
+            // .finally(() => setModalOpen(false));
     }
 
     const openModal = () => {
@@ -37,16 +49,15 @@ const OptionsButton: React.FC = ({ id }) => {
             {open && (
                 <div className="menu">
                     <div className="menu-item" onClick={onEdit}>Editar</div>
-                    <div className="menu-item" onClick={openModal}>
-                        Eliminar
-                    </div>
+                    <div className="menu-item" onClick={openModal}>Eliminar</div>
                 </div>
             )}
             {modalOpen && (
                 <Modal
                     title="Producto"
-                    onConfirm={removeProduct}
+                    onConfirm={onRemove}
                     onCancel={() => setModalOpen(false)}
+                    loading={loadingSave}
                 />
             )}
         </div>

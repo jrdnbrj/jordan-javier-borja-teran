@@ -42,9 +42,7 @@ const Table: React.FC = () => {
                 </div>
                 <div className="col-options"></div>
             </div>
-            {products.map((product, index) => 
-                <TableRow product={product} index={index} />
-            )}
+            {products.map((product, index) => <TableRow product={product} key={index} />)}
             <div className="table-footer">
                 <span className="results-text">5 Resultados</span>
                 <select className="results-select">

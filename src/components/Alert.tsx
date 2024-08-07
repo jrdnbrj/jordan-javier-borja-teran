@@ -20,7 +20,7 @@ const Alert: React.FC = () => {
     if (!alert.message) return null;
 
     return (
-        <div className={`alert ${alert.type}`}>
+        <div className={`alert`}>
             <p>{alert.message}</p>
             <button onClick={() => dispatch(clearAlert())}>X</button>
         </div>
