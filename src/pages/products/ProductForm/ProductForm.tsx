@@ -91,7 +91,7 @@ const ProductForm: React.FC = () => {
                         }));
                     } else {
                         setErrors(prevErrors => {
-                            const { id, ...rest } = prevErrors;
+                            const { ...rest } = prevErrors;
                             return rest;
                         });
                     }
@@ -332,7 +332,6 @@ const ProductForm: React.FC = () => {
                             label="Fecha Revisión"
                             type="date"
                             value={dateRevision}
-                            onFocus={(e) => e.target.blur()}
                             onChange={(e) => e.target.value = dateRevision}
                             loading={loading}
                             readOnly

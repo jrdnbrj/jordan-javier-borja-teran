@@ -1,4 +1,3 @@
-
 ## Requisitos
 
 - React.js (versión 18 o superior)
@@ -10,12 +9,12 @@
 Para instalar las dependencias necesarias, ejecuta:
 
 ```bash
-yarn
+yarn install
 ```
 
 ## Ejecución
 
-Para ejecutar el proyecto, ejecuta:
+Para inicar el proyecto, ejecuta:
 
 ```bash
 yarn dev

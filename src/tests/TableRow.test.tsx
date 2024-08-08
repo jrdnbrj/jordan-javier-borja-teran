@@ -1,11 +1,19 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import TableRow from '../components/TableRow';
 import '@testing-library/jest-dom';
 import { Product } from '../features/product/productSlice';
 
-jest.mock('../components/LogoCircle', () => ({ imageUrl }: any) => <div data-testid="logo-circle">{imageUrl}</div>);
-jest.mock('../components/OptionsButton', () => ({ id, name }: any) => <button data-testid="options-button">{`Options for ${name}`}</button>);
+interface LogoCircleProps {
+    imageUrl: string;
+}
+
+interface OptionsButtonProps {
+    id: string;
+    name: string;
+}
+
+jest.mock('../components/LogoCircle', () => ({ imageUrl }: LogoCircleProps) => <div data-testid="logo-circle">{imageUrl}</div>);
+jest.mock('../components/OptionsButton', () => ({  name }: OptionsButtonProps) => <button data-testid="options-button">{`Options for ${name}`}</button>);
 
 describe('TableRow Component', () => {
     const product: Product = {

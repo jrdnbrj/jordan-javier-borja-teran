@@ -1,8 +1,6 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import FormField from '../pages/products/ProductForm/FormField';
-import Skeleton from '../components/Skeleton';
 
 jest.mock('../components/Skeleton', () => () => <div data-testid="skeleton">Loading...</div>);
 
