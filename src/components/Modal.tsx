@@ -4,6 +4,7 @@ interface ModalProps {
     title: string;
     onConfirm: () => void;
     onCancel: () => void;
+    loading: boolean;
 }
 
 const Modal: React.FC<ModalProps> = ({ title, onConfirm, onCancel, loading }) => {

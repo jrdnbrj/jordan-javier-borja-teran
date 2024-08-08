@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEventHandler } from 'react';
 import Skeleton from '../../../components/Skeleton';
 
 interface FormFieldProps {
@@ -16,7 +16,7 @@ interface FormFieldProps {
 
 const FormField = ({ 
     label, type = 'text', value, onChange, error, textarea, readOnly, disabled, loading 
-}) => {
+}: FormFieldProps) => {
     const renderField = () => {
         if (loading)
             return <Skeleton width="100%" height="2.7rem" />;

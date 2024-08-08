@@ -8,6 +8,7 @@ import { setAlert } from '../features/alert/alertSlice';
 
 interface OptionsButtonProps {
     id: string;
+    name: string;
 }
 
 const OptionsButton: React.FC<OptionsButtonProps> = ({ id, name }) => {

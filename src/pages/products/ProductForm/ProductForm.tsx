@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
-    fetchProducts, addProduct, editProduct, verifyProduct 
+    fetchProducts, addProduct, editProduct, verifyProduct, Product 
 } from '../../../features/product/productSlice';
 import { setAlert } from '../../../features/alert/alertSlice';
 import FormField from './FormField';
+import { AppDispatch, RootState } from '../../../store';
 import {
     required,
     minLength,
@@ -24,20 +25,21 @@ interface FormErrors {
 }
 
 const ProductForm: React.FC = () => {
-    const dispatch = useDispatch();
+    const dispatch : AppDispatch = useDispatch();
+    const navigate = useNavigate();
     const { id: urlId } = useParams<{ id: string }>();
 
-    const formatDate = (date) => {
+    const formatDate = (date: Date | string) => {
         if (!date) return '';
         return new Date(date).toISOString().split('T')[0];
     }
 
-    const products = useSelector((state) => state.product.products);
-    const loading = useSelector((state) => state.product.loading);
-    const loadingSave = useSelector((state) => state.product.loadingSave);
-    const error = useSelector((state) => state.product.error);
+    const products = useSelector((state: RootState) => state.product.products);
+    const loading = useSelector((state: RootState) => state.product.loading);
+    const loadingSave = useSelector((state: RootState) => state.product.loadingSave);
+    const error = useSelector((state: RootState) => state.product.error);
 
-    const [initialValues, setInitialValues] = useState({});
+    const [initialValues, setInitialValues] = useState<Product>({} as Product);
     const [product, setProduct] = useState({});
     const [id, setId] = useState(urlId || '');
     const [name, setName] = useState('');
@@ -47,10 +49,10 @@ const ProductForm: React.FC = () => {
     const [dateRevision, setDateRevision] = useState('');
     const [errors, setErrors] = useState<FormErrors>({});
 
-    // useEffect(() => {
-    //     if (error)
-    //         dispatch(setAlert({ message: 'Ocurrió un problema cargando los productos. Vuelve a intentarlo.' }));
-    // }, [error]);
+    useEffect(() => {
+        if (error)
+            dispatch(setAlert({ message: 'Ocurrió un problema cargando los productos. Vuelve a intentarlo.' }));
+    }, [error]);
 
     useEffect(() => {
         if (products.length === 0 && urlId) {
@@ -164,9 +166,9 @@ const ProductForm: React.FC = () => {
             }
         };
     
-        if (!urlId) {
+        if (!urlId)
             validateDateRelease();
-        } else if (dateRelease) {
+        else if (dateRelease) {
             const newDateRevision = new Date(dateRelease);
             newDateRevision.setFullYear(newDateRevision.getFullYear() + 1);
             setDateRevision(formatDate(newDateRevision));
@@ -176,7 +178,7 @@ const ProductForm: React.FC = () => {
     const validateForm = () => {
         const newErrors: FormErrors = {};
     
-        const addError = (field, error) => {
+        const addError = (field: string, error: string | undefined) => {
             if (error) newErrors[field] = error;
             else delete newErrors[field];
         };
@@ -212,17 +214,24 @@ const ProductForm: React.FC = () => {
         e.preventDefault();
         validateForm()
         if (validateForm()) {
-            const productData = { id, name, description, logo, date_release: dateRelease, date_revision: dateRevision };
+            const productData: Product = 
+                { id, name, description, logo, date_release: dateRelease, date_revision: dateRevision };
             if (urlId)
                 dispatch(editProduct(productData))
                     .unwrap()
-                    .then(() => dispatch(setAlert({ message: 'Producto editado correctamente' })))
-                    .catch(() => dispatch(setAlert({ message: 'Error al editar el producto' })));
+                    .then(() => {
+                        dispatch(setAlert({ message: 'Producto editado correctamente' }));
+                        navigate('/products');
+                    })
+                    .catch(() => dispatch(setAlert({ message: 'Error al editar el producto. Vuelve a intentarlo.' })));
             else
                 dispatch(addProduct(productData))
                     .unwrap()
-                    .then(() => dispatch(setAlert({ message: 'Producto creado correctamente' })))
-                    .catch(() => dispatch(setAlert({ message: 'Error al crear el producto' })));
+                    .then(() => {
+                        dispatch(setAlert({ message: 'Producto creado correctamente' }));
+                        navigate('/products');
+                    })
+                    .catch(() => dispatch(setAlert({ message: 'Error al crear el producto. Vuelve a intentarlo.' })));
         }
     };
 

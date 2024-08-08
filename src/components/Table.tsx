@@ -21,12 +21,8 @@ const Table: React.FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (error) {
-            dispatch(setAlert({ 
-                message: 'Ocurrió un problema cargando los productos. Vuelve a intentarlo.', 
-                type: 'error' 
-            }));
-        }
+        if (error)
+            dispatch(setAlert({ message: 'Ocurrió un problema cargando los productos. Vuelve a intentarlo.' }));
     }, [error, dispatch]);
 
     if (loading) return <div className="table"><Skeleton width="100%" height="20rem" /></div>;

@@ -17,7 +17,7 @@ export interface ProductState {
     loadingSave: boolean;
     error: string | null;
     verificationResult: boolean | null;
-    searchValue: '',
+    searchValue: string;
 }
 
 const initialState: ProductState = {
@@ -26,6 +26,7 @@ const initialState: ProductState = {
     loadingSave: false,
     error: null,
     verificationResult: null,
+    searchValue: '',
 };
 
 export const fetchProducts = createAsyncThunk(
@@ -97,7 +98,7 @@ const productSlice = createSlice({
             .addCase(removeProduct.rejected, createRejectedReducer('loadingSave'))
 
             // Verify Product ID
-            .addCase(verifyProduct.pending, (state) => {
+            .addCase(verifyProduct.pending, () => {
                 // state.loading = true;
                 // state.verificationResult = null;
             })

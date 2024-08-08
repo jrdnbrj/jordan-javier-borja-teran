@@ -39,7 +39,7 @@ export const updateProduct = async (product: Product) => {
 
 export const deleteProduct = async (id: string) => {
     try {
-        const response = await axios.delete(`${API_BASE_URL}/bp/products`, {
+        await axios.delete(`${API_BASE_URL}/bp/products`, {
             headers: { authorId: AUTHOR_ID },
             params: { id },
         });
