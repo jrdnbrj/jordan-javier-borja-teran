@@ -146,6 +146,13 @@ const ProductForm: React.FC = () => {
     
     useEffect(() => {
         const validateDateRelease = () => {
+            if (!dateRelease) {
+                setErrors(prevErrors => {
+                    const { dateRelease, ...rest } = prevErrors;
+                    return rest;
+                });
+                return;
+            }
             const releaseDateError = validateField(dateRelease, [
                 minDate(new Date(), 'Debe ser igual o mayor a la fecha actual!')
             ]);

@@ -11,8 +11,13 @@ export const maxLength = (length: number, message: string): ValidationRule => (v
 export const exactDate = (date: Date, message: string): ValidationRule => (value: string): string | undefined => 
     new Date(value).getTime() !== date.getTime() ? message : undefined;
 
-export const minDate = (date: Date, message: string): ValidationRule => (value: string): string | undefined => 
-    new Date(value) <= date ? message : undefined;
+export const minDate = (date: Date, message: string): ValidationRule => (value: string): string | undefined => {
+    const selectedDate = new Date(value);
+    selectedDate.setHours(0, 0, 0, 0);
+    const minAllowedDate = new Date(date);
+    minAllowedDate.setHours(0, 0, 0, 0);
+    return selectedDate >= minAllowedDate ? undefined : message;
+};
 
 export const validateField = (value: string, rules: ValidationRule[]): string | undefined => {
     for (const rule of rules) {
