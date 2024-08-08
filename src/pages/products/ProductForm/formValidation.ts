@@ -12,9 +12,9 @@ export const exactDate = (date: Date, message: string): ValidationRule => (value
     new Date(value).getTime() !== date.getTime() ? message : undefined;
 
 export const minDate = (date: Date, message: string): ValidationRule => (value: string): string | undefined => 
-    new Date(value) < date ? message : undefined;
+    new Date(value) <= date ? message : undefined;
 
-export const validateField = (field: string, value: string, rules: ValidationRule[]): string | undefined => {
+export const validateField = (value: string, rules: ValidationRule[]): string | undefined => {
     for (const rule of rules) {
         const error = rule(value);
         if (error) return error;

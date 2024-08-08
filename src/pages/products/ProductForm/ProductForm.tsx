@@ -47,13 +47,13 @@ const ProductForm: React.FC = () => {
     const [dateRevision, setDateRevision] = useState('');
     const [errors, setErrors] = useState<FormErrors>({});
 
-    useEffect(() => {
-        if (error)
-            dispatch(setAlert({ message: 'Ocurrió un problema cargando los productos. Vuelve a intentarlo.' }));
-    }, [error]);
+    // useEffect(() => {
+    //     if (error)
+    //         dispatch(setAlert({ message: 'Ocurrió un problema cargando los productos. Vuelve a intentarlo.' }));
+    // }, [error]);
 
     useEffect(() => {
-        if (products.length === 0) {
+        if (products.length === 0 && urlId) {
             dispatch(fetchProducts());
         } else {
             if (!urlId) return;
@@ -80,56 +80,63 @@ const ProductForm: React.FC = () => {
     }, [products]);
 
     useEffect(() => {
-        if (id.length >= 3 || id.length > 10) {
-            const idError = validateField('id', id, [
-                minLength(3, 'Debe tener entre 3 y 10 caracteres!'),
-                maxLength(10, 'Debe tener entre 3 y 10 caracteres!')
-            ]);
-            if (!idError && urlId !== id) {
-                dispatch(verifyProduct(id))
-                    .unwrap()
-                    .then((result) => {
-                        if (result) setErrors(prevErrors => ({ ...prevErrors, id: 'ID ya existe!' }));
-                    })
-            }
+        if (id.length < 10) {
             setErrors(prevErrors => {
-                const { ...rest } = prevErrors;
-                return idError ? { ...rest, id: idError } : rest;
+                const { id, ...rest } = prevErrors;
+                return rest;
             });
+            return;
         }
+
+        const idError = validateField(id, [
+            maxLength(10, 'Debe tener entre 3 y 10 caracteres!')
+        ]);
+        setErrors(prevErrors => {
+            const { ...rest } = prevErrors;
+            return idError ? { ...rest, id: idError } : rest;
+        });
     }, [id]);
     
     useEffect(() => {
-        if (name.length >= 5 || name.length > 100) {
-            const nameError = validateField('name', name, [
-                minLength(5, 'Debe tener entre 5 y 100 caracteres!'),
-                maxLength(100, 'Debe tener entre 5 y 100 caracteres!')
-            ]);
+        if (name.length < 100) {
             setErrors(prevErrors => {
-                const { ...rest } = prevErrors;
-                return nameError ? { ...rest, name: nameError } : rest;
+                const { name, ...rest } = prevErrors;
+                return rest;
             });
+            return;
         }
+
+        const nameError = validateField(name, [
+            maxLength(100, 'Debe tener entre 5 y 100 caracteres!')
+        ]);
+        setErrors(prevErrors => {
+            const { ...rest } = prevErrors;
+            return nameError ? { ...rest, name: nameError } : rest;
+        });
     }, [name]);
     
     useEffect(() => {
-        if (description.length >= 10 || description.length > 200) {
-            const descriptionError = validateField('description', description, [
-                minLength(10, 'Debe tener entre 10 y 200 caracteres!'),
-                maxLength(200, 'Debe tener entre 10 y 200 caracteres!')
-            ]);
+        if (description.length < 200) {
             setErrors(prevErrors => {
-                const { ...rest } = prevErrors;
-                return descriptionError ? { ...rest, description: descriptionError } : rest;
+                const { description, ...rest } = prevErrors;
+                return rest;
             });
+            return;
         }
+        const descriptionError = validateField(description, [
+            maxLength(200, 'Debe tener entre 10 y 200 caracteres!')
+        ]);
+        setErrors(prevErrors => {
+            const { ...rest } = prevErrors;
+            return descriptionError ? { ...rest, description: descriptionError } : rest;
+        });
     }, [description]);
     
     useEffect(() => {
         if (logo) {
-            const logoError = validateField('logo', logo, [required]);
+            const logoError = validateField(logo, [required]);
             setErrors(prevErrors => {
-                const { ...rest } = prevErrors;
+                const { logo, ...rest } = prevErrors;
                 return logoError ? { ...rest, logo: logoError } : rest;
             });
         }
@@ -137,12 +144,17 @@ const ProductForm: React.FC = () => {
     
     useEffect(() => {
         const validateDateRelease = () => {
-            const releaseDateError = validateField('dateRelease', dateRelease, [
+            const releaseDateError = validateField(dateRelease, [
                 minDate(new Date(), 'Debe ser igual o mayor a la fecha actual!')
             ]);
             setErrors(prevErrors => {
                 const { ...rest } = prevErrors;
-                return releaseDateError ? { ...rest, dateRelease: releaseDateError } : rest;
+                if (releaseDateError) {
+                    return { ...rest, dateRelease: releaseDateError };
+                } else {
+                    const { dateRelease, ...restWithoutDateRelease } = rest;
+                    return restWithoutDateRelease;
+                }
             });
     
             if (!releaseDateError && dateRelease) {
@@ -159,7 +171,7 @@ const ProductForm: React.FC = () => {
             newDateRevision.setFullYear(newDateRevision.getFullYear() + 1);
             setDateRevision(formatDate(newDateRevision));
         }
-    }, [dateRelease, urlId]);
+    }, [dateRelease]);
 
     const validateForm = () => {
         const newErrors: FormErrors = {};
@@ -169,25 +181,25 @@ const ProductForm: React.FC = () => {
             else delete newErrors[field];
         };
     
-        addError('id', validateField('id', id, [
+        addError('id', validateField(id, [
             required,
             minLength(3, 'Debe tener entre 3 y 10 caracteres!'),
             maxLength(10, 'Debe tener entre 3 y 10 caracteres!')
         ]));
-        addError('name', validateField('name', name, [
+        addError('name', validateField(name, [
             required,
             minLength(5, 'Debe tener entre 5 y 100 caracteres!'),
             maxLength(100, 'Debe tener entre 5 y 100 caracteres!')
         ]));
-        addError('description', validateField('description', description, [
+        addError('description', validateField(description, [
             required,
             minLength(10, 'Debe tener entre 10 y 200 caracteres!'),
             maxLength(200, 'Debe tener entre 10 y 200 caracteres!')
         ]));
-        addError('logo', validateField('logo', logo, [required]));
+        addError('logo', validateField(logo, [required]));
         
         if (!urlId)
-            addError('dateRelease', validateField('dateRelease', dateRelease, [
+            addError('dateRelease', validateField(dateRelease, [
                 required,
                 minDate(new Date(), 'Debe ser igual o mayor a la fecha actual!')
             ]));
@@ -198,6 +210,7 @@ const ProductForm: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        validateForm()
         if (validateForm()) {
             const productData = { id, name, description, logo, date_release: dateRelease, date_revision: dateRevision };
             if (urlId)
