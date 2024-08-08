@@ -80,7 +80,7 @@ const ProductForm: React.FC = () => {
     }, [products]);
 
     useEffect(() => {
-        if (id.length < 10) {
+        if (id.length < 10 && !urlId) {
             dispatch(verifyProduct(id))
                 .unwrap()
                 .then((result) => {
@@ -211,7 +211,7 @@ const ProductForm: React.FC = () => {
             maxLength(10, 'Debe tener entre 3 y 10 caracteres!')
         ]);
 
-        if (!idError) {
+        if (!idError && !urlId) {
             try {
                 const result = await dispatch(verifyProduct(id)).unwrap();
                 if (result) idError = 'ID ya existe!';
