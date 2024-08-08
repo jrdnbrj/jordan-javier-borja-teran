@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
-    fetchProducts, addProduct, editProduct, verifyProduct, Product 
+    fetchProducts, addProduct, editProduct, Product 
 } from '../../../features/product/productSlice';
 import { setAlert } from '../../../features/alert/alertSlice';
 import FormField from './FormField';
@@ -40,7 +40,6 @@ const ProductForm: React.FC = () => {
     const error = useSelector((state: RootState) => state.product.error);
 
     const [initialValues, setInitialValues] = useState<Product>({} as Product);
-    const [product, setProduct] = useState({});
     const [id, setId] = useState(urlId || '');
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -70,7 +69,6 @@ const ProductForm: React.FC = () => {
                     date_revision: formatDate(productFind?.date_revision)
                 };
                 setInitialValues(formattedProduct);
-                setProduct(formattedProduct);
                 setId(formattedProduct?.id || '');
                 setName(formattedProduct?.name || '');
                 setDescription(formattedProduct?.description || '');
@@ -84,7 +82,7 @@ const ProductForm: React.FC = () => {
     useEffect(() => {
         if (id.length < 10) {
             setErrors(prevErrors => {
-                const { id, ...rest } = prevErrors;
+                const { ...rest } = prevErrors;
                 return rest;
             });
             return;
@@ -102,7 +100,7 @@ const ProductForm: React.FC = () => {
     useEffect(() => {
         if (name.length < 100) {
             setErrors(prevErrors => {
-                const { name, ...rest } = prevErrors;
+                const { ...rest } = prevErrors;
                 return rest;
             });
             return;
@@ -120,7 +118,7 @@ const ProductForm: React.FC = () => {
     useEffect(() => {
         if (description.length < 200) {
             setErrors(prevErrors => {
-                const { description, ...rest } = prevErrors;
+                const { ...rest } = prevErrors;
                 return rest;
             });
             return;
@@ -138,7 +136,7 @@ const ProductForm: React.FC = () => {
         if (logo) {
             const logoError = validateField(logo, [required]);
             setErrors(prevErrors => {
-                const { logo, ...rest } = prevErrors;
+                const { ...rest } = prevErrors;
                 return logoError ? { ...rest, logo: logoError } : rest;
             });
         }
@@ -148,7 +146,7 @@ const ProductForm: React.FC = () => {
         const validateDateRelease = () => {
             if (!dateRelease) {
                 setErrors(prevErrors => {
-                    const { dateRelease, ...rest } = prevErrors;
+                    const { ...rest } = prevErrors;
                     return rest;
                 });
                 return;
@@ -161,7 +159,7 @@ const ProductForm: React.FC = () => {
                 if (releaseDateError) {
                     return { ...rest, dateRelease: releaseDateError };
                 } else {
-                    const { dateRelease, ...restWithoutDateRelease } = rest;
+                    const { ...restWithoutDateRelease } = rest;
                     return restWithoutDateRelease;
                 }
             });

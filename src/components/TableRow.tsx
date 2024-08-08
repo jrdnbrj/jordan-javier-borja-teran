@@ -6,13 +6,12 @@ import { Product } from '../features/product/productSlice';
 const TableRow: React.FC<{ product: Product }> = ({ product }) => {
 
     const formatDate = (date: string) => {
-        const dateObj = typeof date === 'string' ? new Date(date) : date;
-        const day = String(dateObj.getDate()).padStart(2, '0');
-        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-        const year = dateObj.getFullYear();
-        
+        const dateObj = new Date(date);
+        const day = String(dateObj.getUTCDate()).padStart(2, '0');
+        const month = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
+        const year = dateObj.getUTCFullYear();
         return `${day}/${month}/${year}`;
-    }
+    };
 
     return (
         <div className="table-row">

@@ -9,7 +9,6 @@ interface FormFieldProps {
     error?: string;
     textarea?: boolean;
     readOnly?: boolean;
-    onFocus?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
     disabled?: boolean;
     loading?: boolean;
 }
@@ -28,6 +27,7 @@ const FormField = ({
                     onChange={onChange}
                     className={error ? 'error' : ''}
                     readOnly={readOnly}
+                    disabled={disabled}
                 />
             );
 
