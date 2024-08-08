@@ -17,7 +17,7 @@
     margin: 0 1.5rem;
     position: sticky;
     top: 0;
-    z-index: 1; /* Asegura que el header esté por encima del contenido */
+    z-index: 1;
 }
 
 .table-content {
@@ -96,7 +96,6 @@
     min-width: 4rem;
 }
 
-/* Estilos para el scrollbar */
 .table-content::-webkit-scrollbar {
     height: 12px;
     border-radius: 1rem;

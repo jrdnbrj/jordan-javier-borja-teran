@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
-    fetchProducts, addProduct, editProduct, Product 
+    fetchProducts, addProduct, editProduct, Product, verifyProduct
 } from '../../../features/product/productSlice';
 import { setAlert } from '../../../features/alert/alertSlice';
 import FormField from './FormField';
@@ -81,10 +81,27 @@ const ProductForm: React.FC = () => {
 
     useEffect(() => {
         if (id.length < 10) {
-            setErrors(prevErrors => {
-                const { ...rest } = prevErrors;
-                return rest;
-            });
+            dispatch(verifyProduct(id))
+                .unwrap()
+                .then((result) => {
+                    if (result) {
+                        setErrors(prevErrors => ({
+                            ...prevErrors,
+                            id: 'ID ya existe!'
+                        }));
+                    } else {
+                        setErrors(prevErrors => {
+                            const { id, ...rest } = prevErrors;
+                            return rest;
+                        });
+                    }
+                })
+                .catch(() => {
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        id: 'Error verificando el ID.'
+                    }));
+                });
             return;
         }
 
@@ -180,19 +197,31 @@ const ProductForm: React.FC = () => {
         }
     }, [dateRelease]);
 
-    const validateForm = () => {
+    const validateForm = async () => {
         const newErrors: FormErrors = {};
-    
+
         const addError = (field: string, error: string | undefined) => {
             if (error) newErrors[field] = error;
             else delete newErrors[field];
         };
-    
-        addError('id', validateField(id, [
+
+        let idError = validateField(id, [
             required,
             minLength(3, 'Debe tener entre 3 y 10 caracteres!'),
             maxLength(10, 'Debe tener entre 3 y 10 caracteres!')
-        ]));
+        ]);
+
+        if (!idError) {
+            try {
+                const result = await dispatch(verifyProduct(id)).unwrap();
+                if (result) idError = 'ID ya existe!';
+            } catch {
+                idError = 'Error verificando el ID.';
+            }
+        }
+
+        console.log('idError2', idError);
+        addError('id', idError);
         addError('name', validateField(name, [
             required,
             minLength(5, 'Debe tener entre 5 y 100 caracteres!'),
@@ -215,10 +244,9 @@ const ProductForm: React.FC = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        validateForm()
-        if (validateForm()) {
+        if ((await validateForm()) === true) {
             const productData: Product = 
                 { id, name, description, logo, date_release: dateRelease, date_revision: dateRevision };
             if (urlId)
