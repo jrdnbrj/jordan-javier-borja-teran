@@ -1,8 +1,8 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { getProducts, createProduct, updateProduct, deleteProduct, verifyProductId } from '../../api/productApi';
 import { createPendingReducer, createRejectedReducer, createFulfilledReducer } from './productHelpers';
 
-interface Product {
+export interface Product {
     id: string;
     name: string;
     description: string;
@@ -11,12 +11,13 @@ interface Product {
     date_revision: string;
 }
 
-interface ProductState {
+export interface ProductState {
     products: Product[];
     loading: boolean;
     loadingSave: boolean;
     error: string | null;
     verificationResult: boolean | null;
+    searchValue: '',
 }
 
 const initialState: ProductState = {
@@ -45,9 +46,8 @@ export const editProduct = createAsyncThunk(
 export const removeProduct = createAsyncThunk(
     'product/removeProduct',
     async (id: string) => {
-        console.log('Removing product with ID:', id);
         await deleteProduct(id);
-        return {}
+        return { id }
     }
 );
 
@@ -59,7 +59,11 @@ export const verifyProduct = createAsyncThunk(
 const productSlice = createSlice({
     name: 'product',
     initialState,
-    reducers: {},
+    reducers: {
+        setSearchValue: (state, action: PayloadAction<string>) => {
+            state.searchValue = action.payload;
+        }
+    },
     extraReducers: (builder) => {
         builder
             // Fetch Products
@@ -88,7 +92,7 @@ const productSlice = createSlice({
             .addCase(removeProduct.pending, createPendingReducer('loadingSave'))
             .addCase(removeProduct.fulfilled, (state, action) => {
                 state.loadingSave = false;
-                state.products = state.products.filter(product => product.id !== action.payload);
+                state.products = state.products.filter(product => product.id !== action.payload.id);
             })
             .addCase(removeProduct.rejected, createRejectedReducer('loadingSave'))
 
@@ -101,5 +105,7 @@ const productSlice = createSlice({
             .addCase(verifyProduct.rejected, createRejectedReducer('loading'));
     },
 });
+
+export const { setSearchValue } = productSlice.actions;
 
 export default productSlice.reducer;

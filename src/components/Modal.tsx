@@ -15,7 +15,7 @@ const Modal: React.FC<ModalProps> = ({ title, onConfirm, onCancel, loading }) =>
                     <button className="modal-button cancel" onClick={onCancel}>
                         Cancelar
                     </button>
-                    <button className={`modal-button confirm ${loading && 'disabled'}`} onClick={onConfirm}>
+                    <button className={`modal-button confirm ${loading && 'disabled'}`} onClick={onConfirm} disabled={loading}>
                         Confirmar
                     </button>
                 </div>

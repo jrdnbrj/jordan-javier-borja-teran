@@ -10,14 +10,22 @@ import {
     required,
     minLength,
     maxLength,
-    exactDate,
     minDate,
     validateField
 } from './formValidation';
 
+interface FormErrors {
+    id?: string;
+    name?: string;
+    description?: string;
+    logo?: string;
+    dateRelease?: string;
+    [key: string]: string | undefined;
+}
+
 const ProductForm: React.FC = () => {
     const dispatch = useDispatch();
-    const { id: urlId } = useParams();
+    const { id: urlId } = useParams<{ id: string }>();
 
     const formatDate = (date) => {
         if (!date) return '';
@@ -37,7 +45,7 @@ const ProductForm: React.FC = () => {
     const [logo, setLogo] = useState('');
     const [dateRelease, setDateRelease] = useState('');
     const [dateRevision, setDateRevision] = useState('');
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState<FormErrors>({});
 
     useEffect(() => {
         if (error)
@@ -85,7 +93,7 @@ const ProductForm: React.FC = () => {
                     })
             }
             setErrors(prevErrors => {
-                const { id, ...rest } = prevErrors;
+                const { ...rest } = prevErrors;
                 return idError ? { ...rest, id: idError } : rest;
             });
         }
@@ -98,7 +106,7 @@ const ProductForm: React.FC = () => {
                 maxLength(100, 'Debe tener entre 5 y 100 caracteres!')
             ]);
             setErrors(prevErrors => {
-                const { name, ...rest } = prevErrors;
+                const { ...rest } = prevErrors;
                 return nameError ? { ...rest, name: nameError } : rest;
             });
         }
@@ -111,7 +119,7 @@ const ProductForm: React.FC = () => {
                 maxLength(200, 'Debe tener entre 10 y 200 caracteres!')
             ]);
             setErrors(prevErrors => {
-                const { description, ...rest } = prevErrors;
+                const { ...rest } = prevErrors;
                 return descriptionError ? { ...rest, description: descriptionError } : rest;
             });
         }
@@ -121,7 +129,7 @@ const ProductForm: React.FC = () => {
         if (logo) {
             const logoError = validateField('logo', logo, [required]);
             setErrors(prevErrors => {
-                const { logo, ...rest } = prevErrors;
+                const { ...rest } = prevErrors;
                 return logoError ? { ...rest, logo: logoError } : rest;
             });
         }
@@ -133,7 +141,7 @@ const ProductForm: React.FC = () => {
                 minDate(new Date(), 'Debe ser igual o mayor a la fecha actual!')
             ]);
             setErrors(prevErrors => {
-                const { dateRelease, ...rest } = prevErrors;
+                const { ...rest } = prevErrors;
                 return releaseDateError ? { ...rest, dateRelease: releaseDateError } : rest;
             });
     
@@ -154,7 +162,7 @@ const ProductForm: React.FC = () => {
     }, [dateRelease, urlId]);
 
     const validateForm = () => {
-        const newErrors = {};
+        const newErrors: FormErrors = {};
     
         const addError = (field, error) => {
             if (error) newErrors[field] = error;
@@ -188,7 +196,7 @@ const ProductForm: React.FC = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (validateForm()) {
             const productData = { id, name, description, logo, date_release: dateRelease, date_revision: dateRevision };
@@ -241,7 +249,6 @@ const ProductForm: React.FC = () => {
                     <div className="form-row">
                         <FormField
                             label="Descripción"
-                            type="text"
                             textarea
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}

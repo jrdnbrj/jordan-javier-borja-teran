@@ -1,6 +1,9 @@
-import React from 'react';
+interface SkeletonProps {
+    width: string;
+    height: string;
+}
 
-const Skeleton = ({ width, height }) => {
+const Skeleton = ({ width, height }: SkeletonProps) => {
     const style = {
         width: width || '100%',
         height: height || '1rem',

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Product } from '../features/product/productSlice';
 
 const API_BASE_URL = 'https://tribu-ti-staffing-desarrollo-afangwbmcrhucqfh.z01.azurefd.net/ipf-msa-productosfinancieros';
 const AUTHOR_ID = '984790449';
@@ -14,7 +15,7 @@ export const getProducts = async () => {
     }
 };
 
-export const createProduct = async (product: any) => {
+export const createProduct = async (product: Product) => {
     try {
         const response = await axios.post(`${API_BASE_URL}/bp/products`, product, {
             headers: { authorId: AUTHOR_ID },
@@ -25,7 +26,7 @@ export const createProduct = async (product: any) => {
     }
 };
 
-export const updateProduct = async (product: any) => {
+export const updateProduct = async (product: Product) => {
     try {
         const response = await axios.put(`${API_BASE_URL}/bp/products`, product, {
             headers: { authorId: AUTHOR_ID },

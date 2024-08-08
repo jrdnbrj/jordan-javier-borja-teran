@@ -1,8 +1,21 @@
 import React from 'react';
 import Skeleton from '../../../components/Skeleton';
 
+interface FormFieldProps {
+    label: string;
+    type?: string;
+    value: string;
+    onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    error?: string;
+    textarea?: boolean;
+    readOnly?: boolean;
+    onFocus?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    disabled?: boolean;
+    loading?: boolean;
+}
+
 const FormField = ({ 
-    label, type, value, onChange, error, textarea, readOnly, disabled, loading 
+    label, type = 'text', value, onChange, error, textarea, readOnly, disabled, loading 
 }) => {
     const renderField = () => {
         if (loading)

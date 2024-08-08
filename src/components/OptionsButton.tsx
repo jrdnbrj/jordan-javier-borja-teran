@@ -1,30 +1,38 @@
-import React, { useState } from "react";
-import Modal from "./Modal";
+import React, { useState } from 'react';
+import Modal from './Modal';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProduct, fetchProducts } from '../features/product/productSlice';
+import { RootState, AppDispatch } from '../store';
+import { setAlert } from '../features/alert/alertSlice';
 
-const OptionsButton: React.FC = ({ id }) => {
-    const dispatch = useDispatch();
+interface OptionsButtonProps {
+    id: string;
+}
+
+const OptionsButton: React.FC<OptionsButtonProps> = ({ id, name }) => {
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
     const [open, setOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
 
-    const loadingSave = useSelector((state) => state.product.loadingSave);
+    const loadingSave = useSelector((state: RootState) => state.product.loadingSave);
 
     const toggleMenu = () => setOpen(!open);
-    const removeProduct = () => setModalOpen(false);
+    const closeModal = () => setModalOpen(false);
 
     const onEdit = () => navigate(`edit/${id}`);
     const onRemove = () => {
-        console.log('removeProduct', id);
-        // dispatch(fetchProducts())
-        dispatch(removeProduct(id as string))
-            // .unwrap()
-            // .then(() => dispatch(setAlert({ message: 'Producto eliminado correctamente' })))
-            // .catch(() => dispatch(setAlert({ message: 'Error al eliminar el producto' })))
-            // .finally(() => setModalOpen(false));
+        dispatch(removeProduct(id))
+            .unwrap()
+            .then(() => {
+                dispatch(setAlert({ message: 'Producto eliminado correctamente' }));
+                setModalOpen(false);
+                setOpen(false);
+                dispatch(fetchProducts());
+            })
+            .catch(() => dispatch(setAlert({ message: 'Error al eliminar el producto' })))
     }
 
     const openModal = () => {
@@ -54,9 +62,9 @@ const OptionsButton: React.FC = ({ id }) => {
             )}
             {modalOpen && (
                 <Modal
-                    title="Producto"
+                    title={name}
                     onConfirm={onRemove}
-                    onCancel={() => setModalOpen(false)}
+                    onCancel={closeModal}
                     loading={loadingSave}
                 />
             )}

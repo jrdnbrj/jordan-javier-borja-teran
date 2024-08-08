@@ -1,10 +1,12 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import productReducer from '../features/product/productSlice';
-import alertSlice from '../features/alert/alertSlice';
+import alertReducer from '../features/alert/alertSlice';
 
 const rootReducer = combineReducers({
     product: productReducer,
-    alert: alertSlice,
+    alert: alertReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>;
 
 export default rootReducer;

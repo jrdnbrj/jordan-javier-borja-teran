@@ -1,13 +1,23 @@
-export const required = value => !value ? 'Este campo es requerido!' : null;
-export const minLength = (length, message) => value => value.length < length ? message : null;
-export const maxLength = (length, message) => value => value.length > length ? message : null;
-export const exactDate = (date, message) => value => new Date(value).getTime() !== date.getTime() ? message : null;
-export const minDate = (date, message) => value => new Date(value) < date ? message : null;
+type ValidationRule = (value: string) => string | undefined;
 
-export const validateField = (field, value, rules) => {
-    for (let rule of rules) {
+export const required = (value: string): string | undefined => !value ? 'Este campo es requerido!' : undefined;
+
+export const minLength = (length: number, message: string): ValidationRule => (value: string): string | undefined => 
+    value.length < length ? message : undefined;
+
+export const maxLength = (length: number, message: string): ValidationRule => (value: string): string | undefined => 
+    value.length > length ? message : undefined;
+
+export const exactDate = (date: Date, message: string): ValidationRule => (value: string): string | undefined => 
+    new Date(value).getTime() !== date.getTime() ? message : undefined;
+
+export const minDate = (date: Date, message: string): ValidationRule => (value: string): string | undefined => 
+    new Date(value) < date ? message : undefined;
+
+export const validateField = (field: string, value: string, rules: ValidationRule[]): string | undefined => {
+    for (const rule of rules) {
         const error = rule(value);
         if (error) return error;
     }
-    return null;
+    return undefined;
 };

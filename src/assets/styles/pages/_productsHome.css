@@ -1,7 +1,7 @@
-/* @import "../base/_variables.css"; */
-
 .products-home{
     width: 100vw;
     height: 100vh;
     padding: 5% 5%;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
